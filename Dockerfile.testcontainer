@@ -1,0 +1,26 @@
+FROM eu.gcr.io/polylith-177713/docker-awscli AS agent-downloader
+
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+ARG AWS_DEFAULT_REGION=eu-central-1
+ARG AGENT_VERSION=86
+
+RUN aws s3 cp s3://polylith-goartifacts/test-runner-agent-$AGENT_VERSION /agent && \
+    chmod +x /agent
+
+FROM maven:3.5.4-jdk-8-slim
+
+RUN apt-get update && apt-get install -y build-essential
+
+WORKDIR /app
+ADD  . .
+RUN mvn install -DskipTests=true
+
+RUN mkdir /agent-download-directory
+COPY --from=agent-downloader /agent /agent-download-directory/agent 
+
+VOLUME /data/task-data
+WORKDIR /data/task-data
+
+EXPOSE 9091
+CMD ["/bin/bash", "-c", "cp -R /app/. /data/task-data/ && /agent-download-directory/agent"]

@@ -1,0 +1,54 @@
+
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE_NAME: ${{ github.event.repository.name }}
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@master
+
+    # LOGIN TO DOCKER REGISTRY
+    - name: Create docker registry secret file
+      run: echo -n ${{ secrets.DOCKER_REGISTRY_SECRET }} | base64 -d > docker_registry_secret.json
+    - name: Login into docker registry
+      run: docker login -u _json_key -p "$(cat docker_registry_secret.json)" eu.gcr.io
+    - name: Remove docker repoository secret file
+      run: rm docker_registry_secret.json
+
+    # BUILD, TAG AND PUSH TESTCONTAINER IMAGE
+    - name: Build testcontainer image
+      run: docker build --pull -f Dockerfile.testcontainer --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -t "${{ env.DOCKER_IMAGE_NAME }}-testcontainer" .
+    - name: Tag testcontainer image
+      run: docker tag "${{ env.DOCKER_IMAGE_NAME }}-testcontainer" "eu.gcr.io/polylith-177713/${{ env.DOCKER_IMAGE_NAME }}-testcontainer"
+    - name: Push testcontainer image
+      run: docker push "eu.gcr.io/polylith-177713/${{ env.DOCKER_IMAGE_NAME }}-testcontainer:latest"
+
+    # BUILD, TAG AND PUSH WORKSPACE IMAGE
+    - name: Build workspace image
+      run: docker build --pull -f Dockerfile.workspace -t "${{ env.DOCKER_IMAGE_NAME }}-workspace" .
+    - name: Tag workspace image
+      run: docker tag "${{ env.DOCKER_IMAGE_NAME }}-workspace" "eu.gcr.io/polylith-177713/${{ env.DOCKER_IMAGE_NAME }}-workspace"
+    - name: Push workspace image
+      run: docker push "eu.gcr.io/polylith-177713/${{ env.DOCKER_IMAGE_NAME }}-workspace:latest"
+    
+    # LOGIN TO DOCKER TESTCONTAINER REGISTRY
+    - name: Create docker testcontainer registry secret file
+      run: echo -n ${{ secrets.DOCKER_TESTCONTAINER_REGISTRY_SECRET }} | base64 -d > docker_registry_secret.json
+    - name: Login into docker testcontainer registry
+      run: docker login -u _json_key -p "$(cat docker_registry_secret.json)" eu.gcr.io
+    - name: Remove docker repoository secret file
+      run: rm docker_registry_secret.json
+    
+    # TAG AND PUSH TESTCONTAINER IMAGE TO TESTCONTAINER REGISTRY
+    - name: Tag testcontainer image
+      run: docker tag "${{ env.DOCKER_IMAGE_NAME }}-testcontainer" "eu.gcr.io/entwicklerheld/${{ env.DOCKER_IMAGE_NAME }}-testcontainer"
+    - name: Push testcontainer image
+      run: docker push "eu.gcr.io/entwicklerheld/${{ env.DOCKER_IMAGE_NAME }}-testcontainer:latest"
