@@ -1,0 +1,87 @@
+<flow>
+  <feature>
+    <scenario id="1">
+      <title>TreeD</title>
+      <description>
+        <p>
+          Welcome to the EntwicklerHeld edition of JUG Saxony's X-mas challenge!
+        </p>
+        <p>
+          The challenge here is to illuminate an X-mas tree equipped with 400 RGB LEDs for which the XYZ positions are known and which can be individually controlled (by setting their RGB colors). Now guess why we're calling the tree TreeD.
+        </p>
+        <p>
+          You can find more information at the following places:<ul>
+            <li><a href="https://jugsaxony.org/timeline/2022/10/1/Start-Weihnachtswettbewerb" target="_blank">JUG Saxony Blog Post</a></li>
+            <li><a href="https://github.com/TeamTreeD/public/" target="_blank">github Repository</a></li>
+            <li><a href="https://teamtreed.github.io/public/" target="_blank">JavaDoc of the TreeD API</a></li>
+          </ul>
+        </p> 
+        <p>
+          Don't worry about all that documentation, it's so easy to get started here! Just start implementing the methods in the class <code>MyStrategy</code> you're seeing on the left. Best start with <code>getAuthorEmail</code>, <code>getAuthorName</code>, <code>getDescription</code> and <code>getStrategyName</code>. They're pretty self-explaining: just add meaningful return values.
+        </p>
+        <p>
+          Once done, try the "RUN TESTS" button above - it will magically show you if your implementations of the methods pass the tests :)
+        </p>
+        <p>
+          Next, turn to the method <code>calcBulb</code>. Here, you should be creative! As arguments, you get a <code>Bulb</code> object that allows you to access the XYZ coordinates of the bulb and a <code>timestamp</code> that tells you how late it is. From both values, you should be able to calculate an RGB color for this bulb, which you can set (complete or in red/green/blue) parts at the bulb object you've been given. This method is called for all bulbs in tree one by one and again and again with an ever increasing timestamp.
+        </p>
+      </description>
+      <test>
+        <sentence id="1">
+          Please implement the <code>getAuthorEmail</code> method. It should return a valid email that can be used to contact the author of the strategy.
+        </sentence>
+        <sentence id="2">
+          Please implement the <code>getAuthorName</code> method. Here you should return the name of the author.
+        </sentence>
+        <sentence id="3">
+          Please implement the <code>getDescription</code> method. You should  return a short description of the strategy here.
+        </sentence>
+        <sentence id="4">
+          Please implement the <code>getStrategy</code> method. You should return a short but speaking name for your strategy from this method.
+        </sentence>
+        <sentence id="5">
+          Please implement the <code>calcBulb</code> method. Use the XYZ coordinates and the timestamp to calculate the color for each bulb
+          and set it using <code>setR</code>, <code>setG</code>, <code>setB</code> and <code>setRGB</code> methods. 
+          We're simulating some 10 seconds here and check whether at least one of the methods has been called.  
+        </sentence>
+        <sentence id="6">
+          Are you happy with the results? Is the TreeD looking as expected in the frontend?
+          The last step to be done: return <code>true</code> from <code>readyToSubmit</code>
+          and press the "STAGE ABGEBEN" button. 
+        </sentence>
+      </test>
+    </scenario>
+  </feature>
+  <mappings>
+  <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorEmail">
+      <scenario_id>1</scenario_id>
+      <sentence_id>1</sentence_id>
+      <line_number_range>44-47</line_number_range>
+    </mapping>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorName">
+      <scenario_id>1</scenario_id>
+      <sentence_id>2</sentence_id>
+      <line_number_range>52-54</line_number_range>
+    </mapping>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testDescription">
+      <scenario_id>1</scenario_id>
+      <sentence_id>3</sentence_id>
+      <line_number_range>59-61</line_number_range>
+    </mapping>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testStrategyName">
+      <scenario_id>1</scenario_id>
+      <sentence_id>4</sentence_id>
+      <line_number_range>66-68</line_number_range>
+    </mapping>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testCalcBulb">
+      <scenario_id>1</scenario_id>
+      <sentence_id>5</sentence_id>
+      <line_number_range>77-80</line_number_range>
+    </mapping>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testReadyToSubmit">
+      <scenario_id>1</scenario_id>
+      <sentence_id>6</sentence_id>
+      <line_number>85</line_number>
+    </mapping>
+  </mappings>
+</flow>

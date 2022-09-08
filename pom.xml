@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jugsaxony</groupId>
+    <artifactId>treed-core</artifactId>
+    <version>1.0.1</version>
+
+	<description>TreeD</description>
+
+	<properties>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencyManagement>
+			<dependencies>
+					<dependency>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-dependencies</artifactId>
+							<version>2.6.11</version>
+							<type>pom</type>
+							<scope>import</scope>
+					</dependency>
+			</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>31.1-jre</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.7</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+							<archive>
+									<manifest>
+											<addClasspath>true</addClasspath>
+											<mainClass>org.jugsaxony.treed.root.Simulator</mainClass>
+									</manifest>
+							</archive>
+					</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+				<execution>
+						<goals>
+								<goal>java</goal>
+						</goals>
+				</execution>
+				</executions>
+				<configuration>
+						<mainClass>org.jugsaxony.treed.root.Simulator</mainClass>
+				</configuration>
+			</plugin>
+						
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.7.3</version>
+				<configuration>
+					<addResources>true</addResources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.1</version>
+					<configuration>
+							<useSystemClassLoader>false</useSystemClassLoader>
+							<trimStackTrace>false</trimStackTrace>
+							<excludes>
+									<exclude>Abstract*.java</exclude>
+									<exclude>MyStrategyTest.java</exclude>
+							</excludes>
+					</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+    			<excludeDefaultDirectories>true</excludeDefaultDirectories>
+        	<filesets>
+            <fileset>
+                <directory>target</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>classes/static/**</exclude>
+                </excludes>
+            </fileset>
+        	</filesets>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+				<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>2.21.0</version>
+				</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+    <profile>
+      <id>webapp</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.11.3</version>
+						<executions>
+							<execution>
+									<id>install node and npm</id>
+									<goals>
+											<goal>install-node-and-npm</goal>
+									</goals>
+									<phase>package</phase>
+							</execution>
+							<execution>
+								<id>npm install</id>
+								<goals>
+										<goal>npm</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+							<execution>
+								<id>npm run build</id>
+								<goals>
+										<goal>npm</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+										<arguments>run build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+						<configuration>
+							<nodeVersion>v14.17.5</nodeVersion>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+    </profile>
+
+		<profile>
+      <id>suppressjavafx</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<excludes combine.self="override">
+								<exclude>org/jugsaxony/treed/root/Bulb3d.java</exclude>
+								<exclude>org/jugsaxony/treed/root/Simulator.java</exclude>
+								<exclude>org/jugsaxony/treed/examples/Pendulum.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+    </profile>
+	</profiles>
+</project>

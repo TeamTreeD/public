@@ -1,0 +1,40 @@
+
+name: Sonar Analysis
+
+on:
+  workflow_dispatch:
+    inputs:
+      challenge_id:
+        description: 'the challende id in task management service'
+      files:
+        description: 'comma seperated list of files'
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@master
+
+    # LOGIN TO DOCKER REGISTRY
+    - name: Create docker registry secret file
+      run: echo -n ${{ secrets.DOCKER_REGISTRY_SECRET }} | base64 -d > docker_registry_secret.json
+    - name: Login into docker registry
+      run: docker login -u _json_key -p "$(cat docker_registry_secret.json)" eu.gcr.io
+    - name: Remove docker repoository secret file
+      run: rm docker_registry_secret.json
+
+    - name: Run sonar analysis
+      run: |
+        docker run -i \
+        -v "$(pwd):/data" \
+        eu.gcr.io/polylith-177713/sonar-scanner:latest \
+        sonar-scanner \
+        -Dsonar.java.binaries=/tmp \
+        -Dsonar.projectKey=${{ github.event.inputs.challenge_id }} \
+        -Dsonar.projectBaseDir=/data \
+        -Dsonar.organization=entwicklerheld \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_API_KEY }} \
+        -Dsonar.cpp.file.suffixes=- \
+        -Dsonar.sources=${{ github.event.inputs.files }}
