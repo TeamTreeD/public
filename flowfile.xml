@@ -1,0 +1,18 @@
+<flow>
+  <feature>
+    <scenario id="1">
+      <title>Test Scenario 1 - Title</title>
+      <description>Test Scenario 1 - Description </description>
+      <test>
+        <sentence id="1">Describe what to do</sentence>
+      </test>
+    </scenario>
+  </feature>
+  <mappings>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorEmail">
+      <scenario_id>1</scenario_id>
+      <sentence_id>1</sentence_id>
+      <line_number>13</line_number>
+    </mapping>
+  </mappings>
+</flow>
