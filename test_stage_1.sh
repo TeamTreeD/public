@@ -1,6 +1,6 @@
 #!/bin/bash
 
-report_file="target/surefire-reports/TEST-org.jugsaxony.treed.examples.VerticalRainbowTestAnimationStrategyTest.xml"
+report_file="target/surefire-reports/TEST-org.jugsaxony.treed.MyStrategyTest.xml"
 error_file="error.txt"
 
 #mvn -q -Dtest=de.entwicklerheld.treedChallenge.TreedChallengeTests clean surefire-report:report > ${error_file} 2>&1
