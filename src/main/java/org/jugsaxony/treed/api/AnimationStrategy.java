@@ -59,21 +59,4 @@ public interface AnimationStrategy extends Constants {
    * @return An email address where we can reach you. We won't give it away or store it somewhere else.
    */
   String getAuthorEmail();
-
-  /**
-   * We are not sure yet, if we will be able to provide a multithreaded framework.
-   * This method is here to support it, in case we get it done in time.
-   *
-   * It may be possible to calculate multiple frames simultaneously,
-   * which for example means your algorithm doesn't depend on old colors of bulbs
-   * (by using the method #AbstractBaseAnimationStrategy.fadeAll ) or something else you store.
-   *
-   * Background:
-   * Just sending the data to every LED for each frame takes time and limits the max.
-   * FPS to about 50 (given 400 LEDs). If the calculation of the next frame can be
-   * done in parallel the animation will be smoother. It may be worth the effort.
-   *
-   * @return true if no dependency on old colors or unique state, false otherwise.
-   */
-  boolean canRunInParallel();
 }

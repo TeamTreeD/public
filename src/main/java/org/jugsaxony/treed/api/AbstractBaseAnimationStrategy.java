@@ -26,12 +26,11 @@ abstract public class AbstractBaseAnimationStrategy extends Utils implements Ani
 
   /**
    * Calculation all colors of #Bulp's one at a time in the order given.
-   *
    * Note:
    * Other implementations may calculate multiple #Bulp's im parallel.
    *
-   * @param bulbs
-   * @param timestamp
+   * @param bulbs ordered list of Bulbs (grouping index, (x,y,z), rgb for each LED)
+   * @param timestamp current time in milliseconds
    */
   @Override
   public void calcFrame(List<Bulb> bulbs, long timestamp) {
@@ -41,15 +40,4 @@ abstract public class AbstractBaseAnimationStrategy extends Utils implements Ani
   }
 
   protected abstract void calcBulb(Bulb bulb, long timestamp);
-
-  @Override
-  public boolean canRunInParallel() {
-    // Overwrite if multiple frames and/or bulbs can be calculated in parallel by multiple instances of your strategy.
-    // This means:
-    //  * No need to read the old color value.
-    //  * No need to process the bulbs in a particular order.
-    // We are not sure if we will be able to implement any form of parallelism. Just in case,
-    // please let us know if your algorithm and its data structures are able to work multithreaded.
-    return false;
-  }
 }
