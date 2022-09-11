@@ -6,7 +6,15 @@
 
     <groupId>org.jugsaxony.treed</groupId>
     <artifactId>public</artifactId>
-    <version>1.0</version>
+    <version>${revision}</version>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/TeamTreeD/public</url>
+        </repository>
+    </distributionManagement>
     
     <dependencies>
         <dependency>
@@ -21,6 +29,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>LOCAL-SNAPSHOT</revision>
     </properties>
 
     <build>
