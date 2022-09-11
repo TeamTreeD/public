@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Kill spring boot
+
 report_file="target/surefire-reports/TEST-org.jugsaxony.treed.MyStrategyTest.xml"
 error_file="error.txt"
 
@@ -11,3 +13,5 @@ then
 else
     cat ${error_file}
 fi
+
+# Run spring boot in background, exposing at 8037

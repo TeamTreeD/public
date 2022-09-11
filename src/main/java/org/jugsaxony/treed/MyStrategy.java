@@ -29,4 +29,8 @@ public class MyStrategy extends AbstractBaseAnimationStrategy {
   public String getStrategyName() {
     throw new RuntimeException("not implemented yet");
   }
+
+  public boolean readyToSubmit() {
+    return false;
+  }
 }
