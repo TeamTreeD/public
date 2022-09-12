@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Kill spring boot
+mvn spring-boot:stop
 
 report_file="target/surefire-reports/TEST-org.jugsaxony.treed.MyStrategyTest.xml"
 error_file="error.txt"
 
-#mvn -q -Dtest=de.entwicklerheld.treedChallenge.TreedChallengeTests clean surefire-report:report > ${error_file} 2>&1
+mvn -q -Dtest=org.jugsaxony.treed.MyStrategyTest clean surefire-report:report > ${error_file} 2>&1
 mvn -q clean surefire-report:report > ${error_file} 2>&1
 if [ -e ${report_file} ]
 then
@@ -15,3 +15,4 @@ else
 fi
 
 # Run spring boot in background, exposing at 8037
+mvn spring-boot:start 
