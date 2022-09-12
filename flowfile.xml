@@ -1,8 +1,11 @@
 <flow>
   <feature>
     <scenario id="1">
-      <title>Test Scenario 1 - Title</title>
-      <description>Test Scenario 1 - Description </description>
+      <title>LED Strategy</title>
+      <description>
+        We're gonna write...
+      
+      </description>
       <test>
         <sentence id="1">Describe what to do</sentence>
       </test>
