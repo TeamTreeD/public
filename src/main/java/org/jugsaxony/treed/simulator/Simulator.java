@@ -52,7 +52,7 @@ public class Simulator extends Thread implements InitializingBean
 
     protected List<Bulb> createBulbs(List<double[]> positions)
     {
-        var result = new ArrayList<Bulb>(positions.size());
+        List<Bulb> result = new ArrayList<>(positions.size());
         for (int i = 0; i < positions.size(); i++) {
             double[] xyz = positions.get(i);
             result.add(new NotifyingBulb(sink, i, xyz[0], xyz[1], xyz[2]));
