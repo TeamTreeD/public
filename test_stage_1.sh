@@ -1,5 +1,5 @@
 #!/bin/bash
-mvn spring-boot:stop &
+#mvn spring-boot:stop &
 
 report_file="target/surefire-reports/TEST-org.jugsaxony.treed.MyStrategyTest.xml"
 error_file="error.txt"
@@ -13,4 +13,4 @@ else
 fi
 
 # Run spring boot in background, exposing at 8037
-nohup ./run_server.sh &
+#nohup ./run_server.sh &
