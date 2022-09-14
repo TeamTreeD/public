@@ -4,10 +4,9 @@
       <title>LED Strategy</title>
       <description>
         We're gonna write...
-      
       </description>
       <test>
-        <sentence id="1">Describe what to do</sentence>
+        <sentence id="1">Please implement the getAuthorEmail method - it should return a valid email that can be used to contact the author of the stragety.</sentence>
       </test>
     </scenario>
   </feature>
