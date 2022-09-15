@@ -1,6 +1,5 @@
-package org.jugsaxony.treed.simulator.config;
+package org.jugsaxony.treed.web.config;
 
-import org.jugsaxony.treed.root.FilePositions;
 import org.jugsaxony.treed.root.StringPositions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

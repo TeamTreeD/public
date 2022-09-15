@@ -15,9 +15,10 @@ var config = {
                 context: function (pathname, req) {
                     var proxy = false;
                     proxy |= pathname.startsWith("/positions");
+                    proxy |= pathname.startsWith("/strategies");
                     return proxy;
                 },
-                target: "http://localhost:8080"
+                target: "http://localhost:8037"
             }
         ]
     },

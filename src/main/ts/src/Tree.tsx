@@ -1,7 +1,6 @@
 import React, { useMemo, useRef, useCallback, useEffect, useState } from "react"
 import { extend, ReactThreeFiber, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { TextureLoader } from "three"
 import * as _ from "lodash"
 
 declare global {
@@ -14,66 +13,11 @@ declare global {
 
 extend({ OrbitControls })
 
-const vertexShader = `
-precision highp float;
-		uniform mat4 modelViewMatrix;
-		uniform mat4 projectionMatrix;
-		uniform float time;
+class TreeProps {
+  strategy: any;
+}
 
-		attribute vec3 position;
-		attribute vec2 uv;
-		attribute vec3 translate;
-
-		varying vec2 vUv;
-		varying float vScale;
-
-		void main() {
-
-			vec4 mvPosition = modelViewMatrix * vec4( translate, 1.0 );
-			vec3 trTime = vec3(translate.x + time,translate.y + time,translate.z + time);
-			float scale =  sin( trTime.x * 2.1 ) + sin( trTime.y * 3.2 ) + sin( trTime.z * 4.3 );
-			vScale = scale;
-			scale = scale * 10.0 + 10.0;
-			mvPosition.xyz += position * scale;
-			vUv = uv;
-			gl_Position = projectionMatrix * mvPosition;
-
-		}
-`
-
-const fragmentShader=`
-precision highp float;
-
-		uniform sampler2D map;
-
-		varying vec2 vUv;
-		varying float vScale;
-
-		// HSL to RGB Convertion helpers
-		vec3 HUEtoRGB(float H){
-			H = mod(H,1.0);
-			float R = abs(H * 6.0 - 3.0) - 1.0;
-			float G = 2.0 - abs(H * 6.0 - 2.0);
-			float B = 2.0 - abs(H * 6.0 - 4.0);
-			return clamp(vec3(R,G,B),0.0,1.0);
-		}
-
-		vec3 HSLtoRGB(vec3 HSL){
-			vec3 RGB = HUEtoRGB(HSL.x);
-			float C = (1.0 - abs(2.0 * HSL.z - 1.0)) * HSL.y;
-			return (RGB - 0.5) * C + HSL.z;
-		}
-
-		void main() {
-			vec4 diffuseColor = texture2D( map, vUv );
-			gl_FragColor = vec4( diffuseColor.xyz * HSLtoRGB(vec3(vScale/5.0, 1.0, 0.5)), diffuseColor.w );
-
-			if ( diffuseColor.w < 0.5 ) discard;
-		}
-`
-
-
-export function Tree() {
+export function Tree(props : TreeProps) {
 
   const [positions, setPositions] = useState<Float32Array>(undefined)
   const [colors, setColors] = useState<Float32Array>(undefined)
@@ -98,9 +42,12 @@ export function Tree() {
   }, [])
 
   useEffect(() => {  
-    console.log("Subscribing to event stream")
+    if (props.strategy == null) {
+      return
+    }
+    console.log("Subscribing to event stream "+props.strategy)
     const sse = new EventSource(
-      'http://localhost:8080/color-stream',
+      'http://localhost:8037/color-stream?strategy='+props.strategy,
       { withCredentials: false }
     );  
 
@@ -139,7 +86,7 @@ export function Tree() {
       console.log("Closing")
       sse.close();
     };
-  }, []);
+  }, [props.strategy]);
 
   if (positions === undefined || colors === undefined) {
     return null
@@ -178,5 +125,5 @@ export function Controls(props: any) {
   useFrame(() => controls.current.update())
   //
   //
-  return <orbitControls ref={controls} args={[camera, gl.domElement]} enableDamping dampingFactor={0.1} rotateSpeed={0.5}/>
+  return <orbitControls ref={controls} args={[camera, gl.domElement]}  maxDistance={1} enableDamping dampingFactor={0.1} rotateSpeed={0.5}/>
 }

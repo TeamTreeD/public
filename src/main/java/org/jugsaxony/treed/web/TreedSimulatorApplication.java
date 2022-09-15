@@ -1,4 +1,4 @@
-package org.jugsaxony.treed.simulator;
+package org.jugsaxony.treed.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
