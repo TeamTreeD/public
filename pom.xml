@@ -173,7 +173,7 @@
                     <include>**</include>
                 </includes>
                 <excludes>
-                    <exclude>webapp/**</exclude>
+                    <exclude>classes/static/**</exclude>
                 </excludes>
             </fileset>
         	</filesets>
