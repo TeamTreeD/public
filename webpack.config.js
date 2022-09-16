@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-var BUILD_DIR = path.resolve(__dirname, 'target/webapp');
+var BUILD_DIR = path.resolve(__dirname, 'target/classes/static');
 
 var config = {
     devServer: {
