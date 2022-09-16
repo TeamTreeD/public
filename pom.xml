@@ -170,18 +170,39 @@
 			</plugin>
 
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <useSystemClassLoader>false</useSystemClassLoader>
-                    <trimStackTrace>false</trimStackTrace>
-                    <excludes>
-                        <exclude>Abstract*.java</exclude>
-												<exclude>MyStrategyTest.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.1</version>
+					<configuration>
+							<useSystemClassLoader>false</useSystemClassLoader>
+							<trimStackTrace>false</trimStackTrace>
+							<excludes>
+									<exclude>Abstract*.java</exclude>
+									<exclude>MyStrategyTest.java</exclude>
+							</excludes>
+					</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+    			<excludeDefaultDirectories>true</excludeDefaultDirectories>
+        	<filesets>
+            <fileset>
+                <directory>target</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>webapp/**</exclude>
+                </excludes>
+            </fileset>
+        	</filesets>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
