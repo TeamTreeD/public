@@ -47,7 +47,8 @@ export function Tree(props : TreeProps) {
     }
     console.log("Subscribing to event stream "+props.strategy)
     const sse = new EventSource(
-      'http://localhost:8037/color-stream?strategy='+props.strategy,
+      // As the npm proxy buffers SSE, we have to go directly to the CORS-disabled spring boot port...
+      window.location.href.replace(":8000", ":8037")+'color-stream?strategy='+props.strategy,
       { withCredentials: false }
     );  
 
