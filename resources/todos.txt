@@ -1,0 +1,3 @@
+* squash history
+* Add entwicklerheld resources
+  * Ask eh for permission (are there any secrets in the challenge repo?)
