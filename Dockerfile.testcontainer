@@ -8,13 +8,26 @@ ARG AGENT_VERSION=86
 RUN aws s3 cp s3://polylith-goartifacts/test-runner-agent-$AGENT_VERSION /agent && \
     chmod +x /agent
 
+FROM node:14-alpine AS webappbuilder
+
+WORKDIR /app
+ADD * .
+ADD src/main/ts ./src/main/ts
+RUN npm install
+RUN npm run build
+
 FROM maven:3.5.4-jdk-8-slim
 
-RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -y build-essential nginx
+
+COPY --from=webappbuilder /app/target/classes/static /var/www/html
+COPY src/main/docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY src/main/docker/nginx/sites-available/default /etc/nginx/sites-available/default
 
 WORKDIR /app
 ADD  . .
-RUN mvn install -DskipTests=true
+RUN mvn package -DskipTests=true -P\!webapp
+RUN mvn spring-boot:stop -P\!webapp
 
 RUN mkdir /agent-download-directory
 COPY --from=agent-downloader /agent /agent-download-directory/agent 
@@ -22,5 +35,5 @@ COPY --from=agent-downloader /agent /agent-download-directory/agent
 VOLUME /data/task-data
 WORKDIR /data/task-data
 
-EXPOSE 9091
-CMD ["/bin/bash", "-c", "cp -R /app/. /data/task-data/ && /agent-download-directory/agent"]
+EXPOSE 8037 9091
+CMD ["/bin/bash", "-c", "/usr/sbin/nginx && cp -R /app/. /data/task-data/ && /agent-download-directory/agent"]

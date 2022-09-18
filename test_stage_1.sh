@@ -5,10 +5,10 @@ error_file="error.txt"
 #rm -R /webapp > /dev/null 2>&1
 #mkdir /webapp > /dev/null 2>&1
 #cd /webapp > /dev/null 2>&1
-mvn spring-boot:stop > web_out.txt 2>&1
+mvn spring-boot:stop -P\!webapp > web_out.txt 2>&1
 
 #cd /data/task-data
-mvn -q -Dtest=org.jugsaxony.treed.MyStrategyTest surefire-report:report >> ${error_file} 2>&1
+mvn -q -P\!webapp -Dtest=org.jugsaxony.treed.MyStrategyTest surefire-report:report >> ${error_file} 2>&1
 if [ -e ${report_file} ]
 then
     cat ${report_file}
@@ -19,5 +19,5 @@ fi
 # Copy code to /webapp so that it is not cleaned
 #cp -R /data/task-data/. /webapp/
 #cd /webapp
-# Run spring boot in background, exposing at 8037
-mvn spring-boot:start >> web_out.txt 2>&1
+# Run spring boot in background, exposing at 8038
+mvn spring-boot:start -P\!webapp >> web_out.txt 2>&1
