@@ -11,7 +11,7 @@ RUN aws s3 cp s3://polylith-goartifacts/test-runner-agent-$AGENT_VERSION /agent 
 FROM node:14-alpine AS webappbuilder
 
 WORKDIR /app
-ADD * .
+ADD * ./
 ADD src/main/ts ./src/main/ts
 RUN npm install
 RUN npm run build
