@@ -4,6 +4,6 @@ FROM eu.gcr.io/polylith-177713/java-workspace:$JAVA_WORKSPACE_VERSION
 RUN apt-get update && apt-get install -y maven
 
 ADD . /project-at-buildtime
-RUN cd /project-at-buildtime && mvn install -DskipTests=True
+RUN cd /project-at-buildtime && mvn install -DskipTests=True -P\!webapp
 
 CMD ["/bin/bash", "-c", "ln -nsf /project-at-buildtime/target /data/task-data/target && ./workspace"]
