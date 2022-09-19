@@ -1,10 +1,8 @@
 package org.jugsaxony.treed;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MyStrategyTest {
 
@@ -12,6 +10,7 @@ public class MyStrategyTest {
 
   @Test
   public void testAuthorEmail() {
+    assertDoesNotThrow(() -> myStrategy.getAuthorEmail());
     assertNotNull(myStrategy.getAuthorEmail()); 
     assertNotEquals("", myStrategy.getAuthorEmail().trim()); 
   }

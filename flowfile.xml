@@ -7,20 +7,26 @@
       </description>
       <test>
         <sentence id="1">Please implement the getAuthorEmail method - it should return a valid email that can be used to contact the author of the stragety.</sentence>
-        <sentence id="2">Please implement the getAuthorEmail method - it should return a valid email that can be used to contact the author of the stragety, but not an empty string.</sentence>
+        <sentence id="2">Please implement the getAuthorEmail method - it should return a valid email that can be used to contact the author of the stragety, not null.</sentence>
+        <sentence id="3">Please implement the getAuthorEmail method - it should return a valid email that can be used to contact the author of the stragety, not an empty string.</sentence>
       </test>
     </scenario>
   </feature>
   <mappings>
-    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorEmail">
+  <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorEmail">
       <scenario_id>1</scenario_id>
       <sentence_id>1</sentence_id>
-      <line_number>15</line_number>
+      <line_number>13</line_number>
     </mapping>
     <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorEmail">
       <scenario_id>1</scenario_id>
       <sentence_id>2</sentence_id>
-      <line_number>16</line_number>
+      <line_number>14</line_number>
+    </mapping>
+    <mapping full_qualified_name="org.jugsaxony.treed.MyStrategyTest.testAuthorEmail">
+      <scenario_id>1</scenario_id>
+      <sentence_id>3</sentence_id>
+      <line_number>15</line_number>
     </mapping>
   </mappings>
 </flow>
