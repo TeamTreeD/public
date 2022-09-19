@@ -12,15 +12,36 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@master
-      - name: Read flowfile
-        id: read_flow_content
-        uses: juliangruber/read-file-action@v1
+      - name: Install python
+        uses: actions/setup-python@v4
         with:
-          path: ./flowfile.xml
-      - name: Deploy Stage
-        uses: fjogeleit/http-request-action@v1
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - name: Install python dependencies
+        run: pip install requests
+      - name: Send flowfile content to production
+        uses: jannekem/run-python-script-action@v1
+        env:
+          AUTH_TOKEN: ${{ secrets.FLOW_AUTH_TOKEN }}
+          FLOW_BASE_URL: ${{ secrets.FLOW_BASE_URL }}
+          TASK_ID: ${{ github.event.inputs.task_id }}
         with:
-          url: ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/
-          method: 'POST'
-          customHeaders: '{"Content-Type": "application/json", "Authorization": "Token ${{ secrets.FLOW_AUTH_TOKEN }}"}'
-          data: '{"content": "test"}'
+          script: |
+            import requests
+            import os
+            
+            BASE_API_URL = os.getenv("FLOW_BASE_URL", "")
+            AUTH_TOKEN = os.getenv("AUTH_TOKEN", "")
+            TASK_ID = os.getenv("TASK_ID","")
+            content = ""
+            
+            with open("flowfile.xml", "r", encoding="utf-8") as file:
+              content = file.read()
+            
+            requests.post(
+              url=f"{BASE_API_URL}/api/task/{TASK_ID}/update_flow_file/",
+              headers={"Authorization": f"Token {AUTH_TOKEN}"},
+              data={"content": content},
+            )
+            
+
