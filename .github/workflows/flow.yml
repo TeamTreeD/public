@@ -1,0 +1,17 @@
+
+name: Update flow file
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: 'the id of the task which is associated to the flow file'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@master
+    - name: Read flow file content
+      id: readflowcontent
+      run: echo "::set-output name=version::$(cat flowfile.xml)"
