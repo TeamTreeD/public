@@ -53,7 +53,7 @@ jobs:
             )
             
             if response.status_code != 200:
-              raise Exception(f"Something went wrong (Status code {response.status_code}): {response.content}".
+              raise Exception(f"Something went wrong (Status code {response.status_code}): {response.content}.")
           
             
 
