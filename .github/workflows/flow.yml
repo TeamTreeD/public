@@ -12,15 +12,11 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@master
-      - name: Read flow file content
-        id: readflowcontent
-        run: |
-          input_file="flowfile.xml"
-          while read line
-          do
-            file_text=$line
-          done < "$input_file"
-          echo ::set-output name=content::$file_text
+      - name: Read flowfile
+        id: read_flow_content
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./flowfile.xml
       - name: Update flow file in production
         run: |
-          curl -X POST ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/ --header 'Authorization: Token ${{ secrets.FLOW_AUTH_TOKEN }}' --data '{"content":"${{ steps.readflowcontent.outputs.content }}"}' -H "Content-Type: application/json"  
+          curl -X POST ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/ --header 'Authorization: Token ${{ secrets.FLOW_AUTH_TOKEN }}' --data '{"content":"${{ steps.read_flow_content.outputs.content }}"}' -H "Content-Type: application/json"  
