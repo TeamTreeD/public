@@ -1,17 +1,17 @@
 name: Update flow file
-env:
-  FLOW_CONTENT: ""
+
 on:
-  workflow_dispatch:
-    inputs:
-      task_id:
-        description: 'the id of the task which is associated to the flow file'
+  push:
+    branches:
+    - master
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
         uses: actions/checkout@master
+      - name: Get Task Id's from .env file
+        uses: xom9ikk/dotenv@v1.0.2
       - name: Install python
         uses: actions/setup-python@v4
         with:
@@ -23,7 +23,7 @@ jobs:
         env:
           AUTH_TOKEN: ${{ secrets.FLOW_AUTH_TOKEN }}
           FLOW_BASE_URL: ${{ secrets.FLOW_BASE_URL }}
-          TASK_ID: ${{ github.event.inputs.task_id }}
+          TASK_ID: ${{ env.TASK_1_ID}}
         with:
           script: |
             import requests
@@ -32,10 +32,17 @@ jobs:
             BASE_API_URL = os.getenv("FLOW_BASE_URL", "")
             AUTH_TOKEN = os.getenv("AUTH_TOKEN", "")
             TASK_ID = os.getenv("TASK_ID","")
+            
             content = ""
+            
+            if not TASK_ID:
+              raise Exception("Environment Variable TASK_1_ID is not set. Pls add an .env.github file to the repo")
             
             with open("flowfile.xml", "r", encoding="utf-8") as file:
               content = file.read()
+            
+            if not content:
+              raise Exception("No flow content found")
             
             requests.post(
               url=f"{BASE_API_URL}/api/task/{TASK_ID}/update_flow_file/",
