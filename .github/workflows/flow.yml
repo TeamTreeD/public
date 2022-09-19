@@ -17,6 +17,10 @@ jobs:
         uses: juliangruber/read-file-action@v1
         with:
           path: ./flowfile.xml
-      - name: Update flow file in production
-        run: |
-          curl -X POST ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/ --header 'Authorization: Token ${{ secrets.FLOW_AUTH_TOKEN }}' --data '{"content":`${{ steps.read_flow_content.outputs.content }}}`' -H "Content-Type: application/json"  
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{"content": "${{ steps.read_flow_content.outputs.content }}}"'
