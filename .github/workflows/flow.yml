@@ -46,10 +46,14 @@ jobs:
             if not content:
               raise Exception("No flow content found")
             
-            requests.post(
+            response = requests.post(
               url=f"{BASE_API_URL}/api/task/{TASK_ID}/update_flow_file/",
               headers={"Authorization": f"Token {AUTH_TOKEN}"},
               data={"content": content},
             )
+            
+            if response.status_code != 200:
+              raise Exception(f"Something went wrong (Status code {response.status_code}): {response.content}".
+          
             
 
