@@ -12,6 +12,8 @@ jobs:
         uses: actions/checkout@master
       - name: Get Task Id's from .env file
         uses: xom9ikk/dotenv@v1.0.2
+        with:
+          mode: github
       - name: Install python
         uses: actions/setup-python@v4
         with:
