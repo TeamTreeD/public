@@ -5,7 +5,7 @@ on:
     branches:
     - master
 jobs:
-  build:
+  update_flow_file:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
