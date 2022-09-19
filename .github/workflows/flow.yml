@@ -22,5 +22,5 @@ jobs:
         with:
           url: ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/
           method: 'POST'
-          customHeaders: '{"Content-Type": "application/json"}'
-          data: '{"content": "${{ steps.read_flow_content.outputs.content }}}"'
+          customHeaders: '{"Content-Type": "application/json", "Authorization": "Toke ${{ secrets.FLOW_AUTH_TOKEN }}"}'
+          data: '{"content": "${{ steps.read_flow_content.outputs.content }}"}'
