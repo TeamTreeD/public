@@ -16,4 +16,4 @@ jobs:
         run: echo "::set-output name=content::$(cat flowfile.xml)"
       - name: Update flow file in production
         run: |
-          curl -X POST ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/ --header 'Authorization: Token ${{ secrets.FLOW_AUTH_TOKEN }}' --data '{"content":"${{ steps.readflowcontent.outputs.content }}"}' 
+          curl -X POST ${{ secrets.FLOW_BASE_URL }}/api/task/${{ github.event.inputs.task_id }}/update_flow_file/ --header 'Authorization: Token ${{ secrets.FLOW_AUTH_TOKEN }}' --data '{"content":"test"}' 
