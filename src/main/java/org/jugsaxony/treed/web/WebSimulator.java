@@ -69,19 +69,28 @@ public class WebSimulator extends Thread implements InitializingBean
             synchronized (strategyEntries) {
                 int activeStrategies = 0;
                 Iterator<String> strategyKeyIter = strategyEntries.keySet().iterator();
-                while (strategyKeyIter.hasNext()) {
-                    String strategyKey = strategyKeyIter.next();
-                    StrategyEntry strategyEntry = strategyEntries.get(strategyKey);
+                while (strategyKeyIter.hasNext())
+                {
+                    try
+                    {
+                        String strategyKey = strategyKeyIter.next();
+                        StrategyEntry strategyEntry = strategyEntries.get(strategyKey);
 
-                    AnimationStrategy strategy = strategyEntry.getStrategy();
-                    Sinks.Many sink = strategyEntry.getSink();
-                    if (sink.currentSubscriberCount() == 0) {
-                        // No subscribes for this strategy, so don't advance it.
-                        continue;
+                        AnimationStrategy strategy = strategyEntry.getStrategy();
+                        Sinks.Many sink = strategyEntry.getSink();
+                        if (sink.currentSubscriberCount() == 0)
+                        {
+                            // No subscribes for this strategy, so don't advance it.
+                            continue;
+                        }
+                        activeStrategies += 1;
+                        List<Bulb> bulbs = strategyEntry.getBulbs();
+                        advanceStrategy(strategy, bulbs, sink);
+                    } catch (RuntimeException re)
+                    {
+                        // Don't log this to extensively.
+                        LOGGER.info("Deactivating strategy ", re);
                     }
-                    activeStrategies += 1;
-                    List<Bulb> bulbs = strategyEntry.getBulbs();
-                    advanceStrategy(strategy, bulbs, sink);
                 }
                 LOGGER.debug("Active strategies: "+activeStrategies+"/"+strategyEntries.size()+" "+this);
             }
@@ -97,18 +106,22 @@ public class WebSimulator extends Thread implements InitializingBean
         strategy.calcFrame(bulbs, timeStamp);
         strategy.onEndFrame(bulbs, System.currentTimeMillis());
         buffer.append(loopCount);
-        for (Bulb bulb : bulbs) {
+        for (Bulb bulb : bulbs)
+        {
             byte[] bytes = Ints.toByteArray(bulb.getRgb());
-            if (buffer.length() > 0) {
+            if (buffer.length() > 0)
+            {
                 buffer.append(",");
             }
-            buffer.append(color(bytes[1])+","+color(bytes[2])+","+color(bytes[3]));
+            buffer.append(color(bytes[1]) + "," + color(bytes[2]) + "," + color(bytes[3]));
         }
         sink.tryEmitNext(buffer.toString());
         buffer.setLength(0);
-        try {
+        try
+        {
             Thread.sleep(1);
-        } catch (InterruptedException ie) {
+        } catch (InterruptedException ie)
+        {
         }
         strategy.onEndAnimation(bulbs, timeStamp);
     }

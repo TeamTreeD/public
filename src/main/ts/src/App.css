@@ -63,6 +63,22 @@
   animation: colorRotate 6s linear 0s infinite;
 }
 
+.navbar-text {
+  color: lightgray;
+  padding-right: 1rem;
+  padding-bottom: 0rem;
+}
+
+.bg-success {
+  background-color: rgb(0, 127, 61) !important;
+}
+
+#backend-offline {
+  background-color: rgb(214, 226, 212);
+  color: black;
+  margin: 3rem;
+}
+
 @keyframes colorRotate {
   from {
     color: #6666ff;

@@ -18,7 +18,7 @@ var config = {
                     proxy |= pathname.startsWith("/strategies");
                     return proxy;
                 },
-                target: "http://localhost:8037"
+                target: "http://localhost:8038"
             }
         ]
     },
