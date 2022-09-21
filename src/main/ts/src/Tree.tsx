@@ -71,28 +71,37 @@ export function Tree(props : TreeProps) {
   }  
 
   useEffect(() => {  
-    if (props.strategy == null) {
+    if (props.strategy == null || props.strategy.enabled == "false") {
+      unsubscribe()
       return
     }
     subscribe()
-  }, [props.strategy]);
+  }, [props.strategy])
 
-  function subscribe() {
+  function unsubscribe() {
     if (eventSource != undefined) {
       console.log("Closing current stream");
       eventSource.close()
       setEventSource(undefined)
     }
+  }
 
-    console.log("Subscribing to event stream "+props.strategy)
+  function subscribe() {
+    unsubscribe()
+    console.log("Subscribing to event stream "+props.strategy["class"])
     var newSource = new EventSource(
       // As the npm proxy buffers SSE, we have to go directly to the CORS-disabled spring boot port...
-      window.location.href.replace(":8000", ":8038")+'color-stream?strategy='+props.strategy,
+      window.location.href.replace(":8000", ":8038")+'color-stream?strategy='+props.strategy["class"],
       { withCredentials: false }
     )
-      
+    
+    var runningReported = false
+
     newSource.onmessage = (e) => {
-      props.setStrategyStatus(StrategyStatus.STRATEGY_RUNNING)
+      if (!runningReported) {
+        props.setStrategyStatus(StrategyStatus.STRATEGY_RUNNING)
+        runningReported = true
+      }
       processMessage(e.data);  
     } 
     newSource.onerror = () => {
@@ -102,19 +111,15 @@ export function Tree(props : TreeProps) {
       // Set a retry handler.
       setTimeout(() => {
         subscribe()
-      }, 120000)
+      }, 30000)
     }
     setEventSource(newSource)
-
-/*    return () => {
-      console.log("Closing")
-      eventSource.close();
-    };*/
   }
 
   if (positions === undefined || colors === undefined) {
     return null
   }
+
   if (props.strategyStatus == StrategyStatus.STRATEGY_RUNNING) {
     return (<>
         {

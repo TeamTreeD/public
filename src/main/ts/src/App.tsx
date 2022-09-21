@@ -23,13 +23,14 @@ function App() {
           setBackendAvailable(false)
         })
     }, 1000);
+
   
     return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, [])
 
   return (
     <div className="App">
-      <Menu strategy={strategy} onChange={(v) => setStrategy(v)} online={backendAvailable}></Menu>
+      <Menu strategy={strategy} setStrategyStatus={setStrategyStatus} onChange={(v) => setStrategy(v)} online={backendAvailable}></Menu>
         {
           backendAvailable && 
           <>
@@ -48,10 +49,10 @@ function App() {
         }
         {
           !backendAvailable && 
-          <Card id="backend-offline" body>
+          <Card className="defaultCard" body>
             We cannot connect to the backend. If you've started this UI 
             from the Entwickledheld platform, this most probably means that 
-            you need to rerun your tests (which, in turn, will restart the
+            you need to re-run your tests (which, in turn, will restart the
             backend of this simulator).
           </Card>
         }
