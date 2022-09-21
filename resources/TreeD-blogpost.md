@@ -6,6 +6,16 @@ Wir liefern Dir die Ausrede für Deine Kinder und die Idee, wie Du Deine Nerd-Sp
 
 Die Grundidee: der JUG Saxony e.V. hat einen Weihnachtsbaum mit digitalen LEDs ausgerüstet und stellt euch eine Programmierschnittstelle zur Verfügung, mit der ihr den Baum mit Leben erfüllen bzw. zum Leuchten bringen könnt. Am 24. November 2022 schauen wir uns - hoffentlich gemeinsam - eure Ergebnisse an und vergeben Preise für die "besten" Beleuchtungsprogramme ("Strategien").
 
+## Credits
+
+This project was strongly inspired by Matt Parker ([@standupmaths](https://twitter.com/standupmaths)) who published multiple YouTube videos on this idea. Thanks Matt. 
+
+Das Java-Framework, die Beispiele, Visualisierungen und die internen Tools zur Auswertung stammen von Falk Hartmann und Steffen Gemkow (beide JUG Saxony).
+
+Für die Beratung und tatkräftige Unterstützung bei der Integration mit Entwicklerheld bedanken wir uns bei Ilja Bauer und Philipp Dienst.
+
+Unser Testuser Valentin Ehrhardt hat geholfen, die Aufgabe für Euch verständlich zu beschreiben, danke dafür.
+
 ## Teilnahmebedingungen
 
 Es gibt zwei Wege an unserem Wettbewerb teilzunehmen: am einfachsten ist die Teilnahme an unserer Challenge auf Entwicklerheld [1] - dort könnt ihr sofort eine Strategie erstellen und mit unserem Web-Simulator auch anschauen, wie das ganze wohl aussehen wird.
@@ -35,6 +45,5 @@ Es sollte sich von selbst verstehen, aber wir müssen es trotzdem sagen: der Rec
 ## Links
 
 [1] Challenge auf Entwicklerheld: https://platform.entwicklerheld.de/challenge/treed/?technology=java (*TODO*: Ilja: muss das technology=... sein?)
-[2] TreeD Repository auf github: https://github.com/TeamTreeD/public/
 
-*TODO* Steffen: Sollten wir Matt Parker bereits hier referenzieren oder erwähnen?
+[2] TreeD Repository auf github: https://github.com/TeamTreeD/public/
