@@ -9,7 +9,7 @@ public interface AnimationStrategy extends Constants {
    * Please also tear down this data structures in #onEndAnimation.
    *
    * @param bulbs The list of all bulbs gives you the number of them as well as the position and color of each one.
-   * @param timestamp Provides a view at the clock ( <tt>System.currentTimeMillis()</tt> ) is a consistant way.
+   * @param timestamp Provides a view at the clock ( <code>System.currentTimeMillis()</code> ) is a consistant way.
    */
   void onStartAnimation(List<Bulb> bulbs, long timestamp);
   void onStartFrame(List<Bulb> bulbs, long timestamp);
@@ -21,7 +21,7 @@ public interface AnimationStrategy extends Constants {
    * You should use it to clean up after you. Thanks.
    *
    * @param bulbs The list of all bulbs gives you the number of them as well as position and color of each one.
-   * @param timestamp Provides a view at the clock ( <tt>System.currentTimeMillis()</tt> ) is a consistant way.
+   * @param timestamp Provides a view at the clock ( <code>System.currentTimeMillis()</code> ) is a consistant way.
    */
   void onEndAnimation(List<Bulb> bulbs, long timestamp);
 
