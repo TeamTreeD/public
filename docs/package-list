@@ -1,6 +1,7 @@
 org.jugsaxony.treed
 org.jugsaxony.treed.api
 org.jugsaxony.treed.examples
+org.jugsaxony.treed.internal
 org.jugsaxony.treed.root
 org.jugsaxony.treed.web
 org.jugsaxony.treed.web.config
