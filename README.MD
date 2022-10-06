@@ -114,8 +114,8 @@ mvn compile -P\!webapp
 
 ## Credits
 
-This project was strongly inspired by Matt Parker ([@standupmaths](https://twitter.com/
-standupmaths)) who published multiple YouTube videos on this idea. Thanks Matt. 
+This project was strongly inspired by Matt Parker 
+([@standupmaths](https://twitter.com/standupmaths)) who published multiple YouTube videos on this idea. Thanks Matt. 
 
 The Java SDK, the examples, documentation and the visualizations have been written by Steffen Gemkow and Falk Hartmann (both [JUG Saxony](https://www.jugsaxony.org)).
 
